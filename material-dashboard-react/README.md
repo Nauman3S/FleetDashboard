@@ -170,6 +170,7 @@ Supported latest versions of the following browsers:
 
 ## Licensing
 
+- Copyright 2019 3STechLabs (https://3STechLabs.com)
 - Copyright 2018 Creative Tim (https://www.creative-tim.com)
 - Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
 
