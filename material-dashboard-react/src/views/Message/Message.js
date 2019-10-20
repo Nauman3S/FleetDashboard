@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -19,6 +20,7 @@ import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Fab from '@material-ui/core/Fab';
 import Message from "@material-ui/icons/Message";
+import { useState } from "react";
 
 const styles = {
   typo: {
@@ -61,6 +63,23 @@ const useStyles = makeStyles(styles);
 
 export default function MessagePage() {
   const classes = useStyles();
+  const [message, setMessage] = useState("")
+
+    const inputChangeHandler = event => {
+        setMessage(event.target.value)
+    }
+
+    const  messageHandler = async () => {
+      try {
+        const result = await axios.post("http://localhost:5000/admin/message",{message})
+        console.log(result.data)
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+
+    
   return (
     <Card>
       <CardHeader color="primary">
@@ -126,7 +145,7 @@ export default function MessagePage() {
           color="primary"
           aria-label="add"
           className={classes.margin}
-          onClick={() =>  alert("Message sent successfully!")}
+          onClick={messageHandler}
         >
           <Message className={classes.extendedIcon} full />
           Send
@@ -176,7 +195,7 @@ export default function MessagePage() {
     </GridContainer>
     <GridContainer>
       <GridItem xs={15} sm={15} md={12}>
-      <InputLabel style={{ color: "#AAAAAA" }}>Message to send</InputLabel>
+      <InputLabel style={{ color: "#AAAAAA" }}  >Message to send</InputLabel>
                   <CustomInput
                     labelText="Type your message here."
                     id="about-me"
@@ -185,7 +204,9 @@ export default function MessagePage() {
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 5
+                      rows: 5,
+                      value:message,
+                      onChange:inputChangeHandler
                     }}
                   />
           </GridItem>
