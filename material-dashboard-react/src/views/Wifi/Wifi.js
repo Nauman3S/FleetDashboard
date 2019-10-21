@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -19,6 +20,7 @@ import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Fab from '@material-ui/core/Fab';
 import Phone from "@material-ui/icons/Phone";
+import { useState } from "react";
 
 const styles = {
   typo: {
@@ -61,6 +63,54 @@ const useStyles = makeStyles(styles);
 
 export default function WiFiPage() {
   const classes = useStyles();
+
+  const [WiFiStates,setWiFiState] = useState("")
+    
+    const onWiFi = event => {
+        setWiFiState("on")
+        
+    }
+    const offWiFi = event => {
+      setWiFiState("off")
+      
+  }
+  const resetWiFi = event => {
+    setWiFiState("reset")
+    
+}
+    const  OnWiFiHandler = async () => {
+      try {
+        //var add={"add":"mm;;;;;22"}
+        onWiFi();
+        const result = await axios.post("http://localhost:8000/admin/wifiOn",{WiFiStates})
+        console.log(result.data)
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+    const  OffWiFiHandler = async () => {
+      try {
+        //var add={"add":"mm;;;;;22"}
+        offWiFi();
+        const result = await axios.post("http://localhost:8000/admin/wifiOff",{WiFiStates})
+        console.log(result.data)
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+    const  resetWiFiHandler = async () => {
+      try {
+        //var add={"add":"mm;;;;;22"}
+        resetWiFi();
+        const result = await axios.post("http://localhost:8000/admin/wifiReset",{WiFiStates})
+        console.log(result.data)
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
   
   return (
     <Card>
@@ -75,17 +125,18 @@ export default function WiFiPage() {
      
     <GridContainer>
       <GridItem xs={5} sm={5} md={5}>
-      <Button color="primary" fullWidth onClick={() =>  alert("I am an alert box!")}>
+      <Button color="primary" fullWidth  onClick={ OnWiFiHandler} >
                   Turn On Hotspot
+                  
         </Button>
         </GridItem>
         <GridItem xs={5} sm={5} md={5}>
-        <Button color="rose" fullWidth onClick={() =>  alert("I am an alert box!")}>
+        <Button color="rose" fullWidth onClick={OffWiFiHandler}>
                   Turn Off Hotspot
         </Button>
     </GridItem>
     <GridItem xs={5} sm={5} md={5}>
-        <Button color="white" fullWidth onClick={() =>  alert("I am an alert box!")}>
+        <Button color="white" fullWidth onClick={resetWiFiHandler}>
                   Reset Settings
         </Button>
         </GridItem>

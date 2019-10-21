@@ -61,17 +61,22 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function MessagePage() {
+export default function MessagePage() { 
   const classes = useStyles();
-  const [message, setMessage] = useState("")
-
+  const [message,setMessage] = useState("")
+  const [phoneNumber,setPhoneNumber] = useState("")
     const inputChangeHandler = event => {
         setMessage(event.target.value)
-    }
 
+    }
+    const inputChangeHandlerPN = event => {
+        setPhoneNumber(event.target.value)
+        
+    }
     const  messageHandler = async () => {
       try {
-        const result = await axios.post("http://localhost:5000/admin/message",{message})
+        //var add={"add":"mm;;;;;22"}
+        const result = await axios.post("http://localhost:8000/admin/message",{message,phoneNumber})
         console.log(result.data)
       } catch (error) {
         console.log(error);
@@ -98,6 +103,12 @@ export default function MessagePage() {
                     formControlProps={{
                       fullWidth: true
                     }}
+
+                    inputProps={{
+                      value:phoneNumber,
+                      onChange:inputChangeHandlerPN
+                    }}
+
                   />
                 </GridItem>
 

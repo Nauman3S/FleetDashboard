@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -18,6 +19,7 @@ import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Fab from '@material-ui/core/Fab';
 import Phone from "@material-ui/icons/Phone";
+import { useState } from "react";
 
 const styles = {
   typo: {
@@ -60,6 +62,24 @@ const useStyles = makeStyles(styles);
 
 export default function CallPage() {
   const classes = useStyles();
+
+  const [phoneNumber,setPhoneNumber] = useState("")
+    
+    const inputChangeHandlerPN = event => {
+        setPhoneNumber(event.target.value)
+        
+    }
+    const  PhoneHandler = async () => {
+      try {
+        //var add={"add":"mm;;;;;22"}
+        const result = await axios.post("http://localhost:8000/admin/phone",{phoneNumber})
+        console.log(result.data)
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+
   return (
     <Card>
       <CardHeader color="primary">
@@ -78,6 +98,12 @@ export default function CallPage() {
                     formControlProps={{
                       fullWidth: true
                     }}
+
+                    inputProps={{
+                      value:phoneNumber,
+                      onChange:inputChangeHandlerPN
+                    }}
+
                   />
                 </GridItem>
 
@@ -125,7 +151,8 @@ export default function CallPage() {
           color="primary"
           aria-label="add"
           className={classes.margin}
-          onClick={() =>  alert("I am an alert box!")}
+          //onClick={() =>  alert("I am an alert box!")}
+          onClick={PhoneHandler}
         >
           <Phone className={classes.extendedIcon} full />
           Call

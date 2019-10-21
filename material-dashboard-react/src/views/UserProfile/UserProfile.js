@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -12,8 +13,9 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-
+import { useState } from "react";
 import avatar from "assets/img/faces/marc.jpg";
+
 
 const styles = {
   cardCategoryWhite: {
@@ -38,6 +40,72 @@ const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
   const classes = useStyles();
+
+
+  const [Company,setCompany] = useState("")
+  const [UserName,setUserName] = useState("")
+  const [Email,setEmail] = useState("")
+  const [FirstName,setFirstName] = useState("")
+  const [LastName,setLastName] = useState("")
+  const [City,setCity] = useState("")
+  const [Country,setCountry] = useState("")
+  const [PostalCode,setPostalCode] = useState("")
+  const [AboutMe,setAboutMe] = useState("")
+
+    const inputChangeHandlerCompany = event => {
+        setCompany(event.target.value)
+
+    }
+    const inputChangeHandlerU = event => {
+        setUserName(event.target.value)
+        
+    }
+    const inputChangeHandlerE = event => {
+      setEmail(event.target.value)
+      
+  }
+
+  const inputChangeHandlerF = event => {
+    setFirstName(event.target.value)
+    
+}
+
+const inputChangeHandlerL = event => {
+  setLastName(event.target.value)
+  
+}
+
+const inputChangeHandlerCity = event => {
+  setCity(event.target.value)
+  
+}
+const inputChangeHandlerCountry = event => {
+  setCountry(event.target.value)
+  
+}
+
+const inputChangeHandlerP = event => {
+  setPostalCode(event.target.value)
+  
+}
+
+const inputChangeHandlerA = event => {
+  setAboutMe(event.target.value)
+  
+}
+    const  ProfileHandler = async () => {
+      try {
+        //var add={"add":"mm;;;;;22"}
+        const result = await axios.post("http://localhost:8000/admin/aboutme",{Company,UserName,Email,FirstName,LastName,City,Country,PostalCode,AboutMe})
+        console.log(result.data)
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+
+
+
   return (
     <div>
       <GridContainer>
@@ -51,13 +119,14 @@ export default function UserProfile() {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={5}>
                   <CustomInput
-                    labelText="Company (disabled)"
+                    labelText="Company"
                     id="company-disabled"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: true
+                      value:Company,
+                      onChange:inputChangeHandlerCompany
                     }}
                   />
                 </GridItem>
@@ -68,6 +137,12 @@ export default function UserProfile() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      value:UserName,
+                      onChange:inputChangeHandlerU
+                    }}
+
+                    
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -88,6 +163,10 @@ export default function UserProfile() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      value:FirstName,
+                      onChange:inputChangeHandlerF
+                    }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
@@ -96,6 +175,11 @@ export default function UserProfile() {
                     id="last-name"
                     formControlProps={{
                       fullWidth: true
+                    }}
+
+                    inputProps={{
+                      value:LastName,
+                      onChange:inputChangeHandlerL
                     }}
                   />
                 </GridItem>
@@ -108,6 +192,10 @@ export default function UserProfile() {
                     formControlProps={{
                       fullWidth: true
                     }}
+                    inputProps={{
+                      value:City,
+                      onChange:inputChangeHandlerCity
+                    }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -117,6 +205,11 @@ export default function UserProfile() {
                     formControlProps={{
                       fullWidth: true
                     }}
+
+                    inputProps={{
+                      value:Country,
+                      onChange:inputChangeHandlerCountry
+                    }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
@@ -125,6 +218,11 @@ export default function UserProfile() {
                     id="postal-code"
                     formControlProps={{
                       fullWidth: true
+                    }}
+
+                    inputProps={{
+                      value:PostalCode,
+                      onChange:inputChangeHandlerP
                     }}
                   />
                 </GridItem>
@@ -142,12 +240,17 @@ export default function UserProfile() {
                       multiline: true,
                       rows: 5
                     }}
+
+                    inputProps={{
+                      value:AboutMe,
+                      onChange:inputChangeHandlerA
+                    }}
                   />
                 </GridItem>
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Update Profile</Button>
+              <Button color="primary" onClick={ProfileHandler}>Update Profile</Button>
             </CardFooter>
           </Card>
         </GridItem>
